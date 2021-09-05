@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
 
-.App {
+.app {
   font-size: 22px;
   padding: 20px;
 }
 
-.App-header {
+.header {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 10px;
 }
 
 h1 {
@@ -29,19 +29,53 @@ h3 {
 
 p {
   margin-top: 0px;
-  color: rgb(142, 142, 142);
+  color: rgb(150, 150, 150);
 }
 
 a {
-  color: rgb(142, 142, 142);
+  color: rgb(150, 150, 150);
 }
 
-.Section-bag {
+input {
+  background: #000;
+  color: #ffffff;
+  margin: 0;
+  padding: 0px 4px;
+  border: solid 1px #222;
+  font-size: 2rem;
+  width: 200px;
+  margin-left: 4px;
+}
+
+.user {
+  height: 100px;
+}
+
+.metamask-button {
+  display: block;
+  background: #000;
+  color: rgb(150, 150, 150);
+  padding: 8px;
+  margin: 0;
+  border: none;
+  border: solid 1px #333;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.row {
   display: flex;
   flex-wrap: wrap;
 }
 
-.Bag {
+.right {
+  min-width: 250px;
+  max-width: 40%;
+}
+
+.bag {
   background: #000000;
   width: 400px;
   height: 400px;
@@ -50,7 +84,7 @@ a {
   margin: 8px;
 }
 
-.Bag > p {
+.bag > p {
   color: #ffffff;
   margin: 0px;
   margin-bottom: 4px;
@@ -70,6 +104,9 @@ a {
   margin-bottom: 4px;
 }
 
+.sounds-row > div {
+  min-width: 100px;
+}
+
 .sounds-row > div > audio {
-  width: 200px;
 }

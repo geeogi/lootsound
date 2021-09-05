@@ -1,16 +1,20 @@
 import "./App.css";
-import { CHEST_ARMOUR, LOOT, MISC, SUFFIXES, WEAPONS } from "./constants/loot";
+import { CHEST_ARMOR, LOOT, MISC, SUFFIXES, WEAPONS } from "./constants/loot";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { RPC_ENDPOINT } from "./constants/eth";
 import { ABI } from "./constants/abi";
+import { Audio } from "./components/Audio";
 
 function App() {
   const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider>();
   const [contract, setContract] = useState<ethers.Contract>();
 
-  const [address] = useState(LOOT);
-  const [lootId] = useState(7051);
+  const [contractAddress] = useState(LOOT);
+  const [lootId, setLootId] = useState(7051);
+
+  const [userAddress, setUserAddress] = useState<string>();
+  const [userLootIds, setUserLootIds] = useState<number[]>();
 
   const [loot, setLoot] = useState<{
     chest: string;
@@ -32,10 +36,10 @@ function App() {
 
   useEffect(() => {
     if (provider) {
-      const newContract = new ethers.Contract(address, ABI, provider);
+      const newContract = new ethers.Contract(contractAddress, ABI, provider);
       setContract(newContract);
     }
-  }, [address, provider]);
+  }, [contractAddress, provider]);
 
   useEffect(() => {
     if (contract) {
@@ -64,9 +68,77 @@ function App() {
     }
   }, [contract, lootId]);
 
+  const weapon = loot?.weapon;
+  const armor = CHEST_ARMOR.find((i) => loot?.chest.includes(i));
+  const miscs = MISC.filter((i) =>
+    Object.values(loot || {}).find((j) => j.includes(i))
+  );
+  const suffixes = SUFFIXES.filter((i) =>
+    Object.values(loot || {}).find((j) => j.includes(i))
+  );
+
+  const getAddressLootIdViaMetamask = async () => {
+    if (contract) {
+      try {
+        // Get injected web3
+        const provider = new ethers.providers.Web3Provider(
+          (window as any).ethereum,
+          "any"
+        );
+
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+
+        // get user address
+        const newUserAddress = await signer.getAddress();
+
+        // get user loot balance
+        const balance = await contract.balanceOf(newUserAddress);
+
+        // get user loot ids
+        const promises = [];
+        for (let i = 0; i < balance; i++) {
+          promises.push(contract.tokenOfOwnerByIndex(newUserAddress, i));
+        }
+
+        const newUserLootIds = await Promise.all(promises);
+
+        if (newUserLootIds.length === 0) {
+          alert(`No Loot found for ${newUserAddress.slice(0, 12)}.`);
+        }
+
+        setLootId(Number(newUserLootIds[0]));
+        setUserLootIds(newUserLootIds.map(Number));
+        setUserAddress(String(newUserAddress));
+      } catch (e) {
+        alert("Failed to get Loot balance. Is Metamask unlocked?");
+        console.error(e);
+      }
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="app">
+      <div className="user">
+        <button
+          className="metamask-button"
+          onClick={getAddressLootIdViaMetamask}
+        >
+          {userAddress ? userAddress.slice(0, 12) : "Connect to Metamask"}
+        </button>
+        {userLootIds && (
+          <select
+            className="user-loot-ids"
+            value={lootId}
+            onChange={(e) => setLootId(Number(e.target.value))}
+          >
+            {userLootIds.map((id) => (
+              <option value={id}>{id}</option>
+            ))}
+          </select>
+        )}
+      </div>
+      <header className="header">
         <h1>Loot sound</h1>
         <p>
           Sound for{" "}
@@ -80,18 +152,53 @@ function App() {
           . Royalty free, Creative Commons Licensed.
         </p>
       </header>
-      <h2>Bag #{lootId}</h2>
-      <div className="Section-bag">
-        <div>
-          <div className="Bag">
-            {Object.values(loot || {}).map((item) => (
-              <p>{item}</p>
-            ))}
+      <h2>
+        Bag #
+        <input
+          value={lootId}
+          type="number"
+          onChange={(e) => setLootId(Number(e.target.value))}
+        />
+      </h2>
+      <div className="row">
+        <div className="left">
+          <div className="bag">
+            {loot ? (
+              Object.values(loot).map((item) => <p>{item}</p>)
+            ) : (
+              <p>Loading...</p>
+            )}
           </div>
         </div>
-        <div>
-          <h3>Entrance sound</h3>
-          <h3>Individual sounds</h3>
+        <div className="right">
+          {loot && (
+            <>
+              <h3>Entrance sound</h3>
+              <h3>Individual sounds</h3>
+              <div className="sounds-row">
+                <div key={weapon}>
+                  <p>{weapon}</p>
+                  <Audio src={`/wav/weapons/${weapon}`} />
+                </div>
+                <div key={armor}>
+                  <p>{armor}</p>
+                  <Audio src={`/wav/chestArmor/${armor}.wav`} />
+                </div>
+                {miscs.map((misc) => (
+                  <div key={misc}>
+                    <p>{misc}</p>
+                    <Audio src={`/wav/misc/${misc}.wav`} />
+                  </div>
+                ))}
+                {suffixes.map((suffix) => (
+                  <div key={suffix}>
+                    <p>{suffix}</p>
+                    <Audio src={`/wav/suffixes/${suffix}.wav`} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       <h2>All sounds</h2>
@@ -101,24 +208,16 @@ function App() {
           {WEAPONS.map((weapon) => (
             <div key={weapon}>
               <p>{weapon}</p>
-              <audio
-                preload="none"
-                src={`/wav/weapons/${weapon}.wav`}
-                controls
-              />
+              <Audio src={`/wav/weapons/${weapon}.wav`} />
             </div>
           ))}
         </div>
-        <h3>chestArmour</h3>
+        <h3>chestArmor</h3>
         <div className="sounds-row">
-          {CHEST_ARMOUR.map((chestArmour) => (
-            <div key={chestArmour}>
-              <p>{chestArmour}</p>
-              <audio
-                preload="none"
-                src={`/wav/chestArmour/${chestArmour}.wav`}
-                controls
-              />
+          {CHEST_ARMOR.map((chestArmor) => (
+            <div key={chestArmor}>
+              <p>{chestArmor}</p>
+              <Audio src={`/wav/chestArmor/${chestArmor}.wav`} />
             </div>
           ))}
         </div>
@@ -127,13 +226,11 @@ function App() {
           {SUFFIXES.map((suffix) => (
             <div key={suffix}>
               <p>{suffix}</p>
-              <audio
-                preload="none"
+              <Audio
                 src={`/wav/suffixes/${suffix
                   .replace(" ", "")
                   .replace("of", "")
                   .replace("the", "")}.wav`}
-                controls
               />
             </div>
           ))}
@@ -143,7 +240,6 @@ function App() {
           {MISC.map((misc) => (
             <div key={misc}>
               <p>{misc}</p>
-              <audio preload="none" src={`/wav/misc/${misc}.wav`} controls />
             </div>
           ))}
         </div>
