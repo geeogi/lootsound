@@ -55,3 +55,21 @@ a {
   margin: 0px;
   margin-bottom: 4px;
 }
+
+.sounds-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sounds-row > div {
+  margin: 8px;
+}
+
+.sounds-row > div > p {
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.sounds-row > div > audio {
+  width: 200px;
+}
