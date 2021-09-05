@@ -1,4 +1,8 @@
-export const weapons = [
+export const LOOT = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
+export const MLOOT = "0x1dfe7Ca09e99d10835Bf73044a23B73Fc20623DF";
+export const XLOOT = "0x8bf2f876E2dCD2CAe9C3d272f325776c82DA366d";
+
+export const WEAPONS = [
   "Warhammer",
   "Quarterstaff",
   "Maul",
@@ -19,7 +23,7 @@ export const weapons = [
   "Book",
 ];
 
-export const suffixes = [
+export const SUFFIXES = [
   "of Power",
   "of Giants",
   "of Titans",
@@ -38,6 +42,6 @@ export const suffixes = [
   "of the Twins",
 ];
 
-export const chestArmour = ["Robe", "Husk", "Shirt", "Mail", "Chestplate"];
+export const CHEST_ARMOUR = ["Robe", "Husk", "Shirt", "Mail", "Chestplate"];
 
-export const misc = ["Demon", "Divine", "Dragon", "Holy"];
+export const MISC = ["Demon", "Divine", "Dragon", "Holy"];

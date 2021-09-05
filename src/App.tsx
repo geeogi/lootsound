@@ -1,7 +1,69 @@
 import "./App.css";
-import { chestArmour, misc, suffixes, weapons } from "./constants/loot";
+import { CHEST_ARMOUR, LOOT, MISC, SUFFIXES, WEAPONS } from "./constants/loot";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { RPC_ENDPOINT } from "./constants/eth";
+import { ABI } from "./constants/abi";
 
 function App() {
+  const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider>();
+  const [contract, setContract] = useState<ethers.Contract>();
+
+  const [address] = useState(LOOT);
+  const [lootId] = useState(7051);
+
+  const [loot, setLoot] = useState<{
+    chest: string;
+    foot: string;
+    hand: string;
+    head: string;
+    neck: string;
+    ring: string;
+    waist: string;
+    weapon: string;
+  }>();
+
+  useEffect(() => {
+    if (!provider) {
+      const newProvider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINT);
+      setProvider(newProvider);
+    }
+  }, [provider]);
+
+  useEffect(() => {
+    if (provider) {
+      const newContract = new ethers.Contract(address, ABI, provider);
+      setContract(newContract);
+    }
+  }, [address, provider]);
+
+  useEffect(() => {
+    if (contract) {
+      const fetchLoot = async () => {
+        const chest = await contract.getChest(lootId);
+        const foot = await contract.getFoot(lootId);
+        const hand = await contract.getHand(lootId);
+        const head = await contract.getHead(lootId);
+        const neck = await contract.getNeck(lootId);
+        const ring = await contract.getRing(lootId);
+        const waist = await contract.getWaist(lootId);
+        const weapon = await contract.getWeapon(lootId);
+
+        setLoot({
+          chest,
+          foot,
+          hand,
+          head,
+          neck,
+          ring,
+          waist,
+          weapon,
+        });
+      };
+      fetchLoot();
+    }
+  }, [contract, lootId]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,12 +80,13 @@ function App() {
           . Royalty free, Creative Commons Licensed.
         </p>
       </header>
-      <h2>Bag #7584</h2>
+      <h2>Bag #{lootId}</h2>
       <div className="Section-bag">
         <div>
           <div className="Bag">
-            <p>Ring Mail of Giants</p>
-            <p>Demonhide Boots of the Fox</p>
+            {Object.values(loot || {}).map((item) => (
+              <p>{item}</p>
+            ))}
           </div>
         </div>
         <div>
@@ -35,8 +98,8 @@ function App() {
       <div className="Section-sounds">
         <h3>weapons</h3>
         <div className="sounds-row">
-          {weapons.map((weapon) => (
-            <div>
+          {WEAPONS.map((weapon) => (
+            <div key={weapon}>
               <p>{weapon}</p>
               <audio
                 preload="none"
@@ -48,8 +111,8 @@ function App() {
         </div>
         <h3>chestArmour</h3>
         <div className="sounds-row">
-          {chestArmour.map((chestArmour) => (
-            <div>
+          {CHEST_ARMOUR.map((chestArmour) => (
+            <div key={chestArmour}>
               <p>{chestArmour}</p>
               <audio
                 preload="none"
@@ -61,8 +124,8 @@ function App() {
         </div>
         <h3>suffixes</h3>
         <div className="sounds-row">
-          {suffixes.map((suffix) => (
-            <div>
+          {SUFFIXES.map((suffix) => (
+            <div key={suffix}>
               <p>{suffix}</p>
               <audio
                 preload="none"
@@ -77,8 +140,8 @@ function App() {
         </div>
         <h3>misc.</h3>
         <div className="sounds-row">
-          {misc.map((misc) => (
-            <div>
+          {MISC.map((misc) => (
+            <div key={misc}>
               <p>{misc}</p>
               <audio preload="none" src={`/wav/misc/${misc}.wav`} controls />
             </div>
