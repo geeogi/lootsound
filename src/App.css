@@ -30,6 +30,16 @@
   margin-bottom: 8px;
 }
 
+.metamask-button:hover {
+  background: #222;
+}
+
+@media only screen and (max-width: 600px) {
+  .metamask-button {
+    display: none;
+  }
+}
+
 .primary-row {
   display: flex;
   flex-wrap: wrap;
@@ -75,6 +85,13 @@
   font-size: 20px;
 }
 
+@media only screen and (max-width: 600px) {
+  .bag {
+    width: 200px;
+    height: unset;
+  }
+}
+
 .sounds-row {
   display: flex;
   flex-wrap: wrap;
@@ -102,6 +119,8 @@
   padding: 20px 16px;
   min-width: 150px;
   margin-left: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .green {
