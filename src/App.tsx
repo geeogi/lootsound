@@ -86,7 +86,7 @@ function App() {
 
   const { weapon, armor, miscs, suffixes } = useMemo(() => {
     return {
-      weapon: loot?.weapon,
+      weapon: WEAPONS.find((i) => loot?.weapon.includes(i))?.replace(" ", "-"),
       armor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)),
       miscs: MISC.filter((i) =>
         Object.values(loot || {}).find((j) => j.includes(i))
@@ -301,7 +301,7 @@ function App() {
       <div className="Section-sounds">
         <h3>weapons</h3>
         <div className="sounds-row">
-          {WEAPONS.map((weapon) => (
+          {WEAPONS.map((i) => i.replace(" ", "-")).map((weapon) => (
             <div key={weapon}>
               <p>{weapon}</p>
               <Audio src={`/wav/weapons/${weapon}.wav`} />
@@ -336,6 +336,7 @@ function App() {
           {MISC.map((misc) => (
             <div key={misc}>
               <p>{misc}</p>
+              <Audio src={`/wav/misc/${misc}.wav`} />
             </div>
           ))}
         </div>

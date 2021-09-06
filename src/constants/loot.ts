@@ -30,22 +30,22 @@ export const WEAPONS = [
 ];
 
 export const SUFFIXES = [
-  "Power",
-  "Giants",
-  "Titans",
-  "Skill",
-  "Perfection",
-  "Brilliance",
-  "Enlightenment",
-  "Protection",
-  "Anger",
-  "Rage",
-  "Fury",
-  "Vitriol",
+  "Twins",
   "Fox",
+  "Titans",
+  "Fury",
+  "Rage",
   "Detection",
   "Reflection",
-  "Twins",
+  "Giants",
+  "Protection",
+  "Enlightenment",
+  "Vitriol",
+  "Anger",
+  "Brilliance",
+  "Perfection",
+  "Power",
+  "Skill",
 ];
 
 export const CHEST_ARMOR = [
@@ -57,4 +57,4 @@ export const CHEST_ARMOR = [
   "Chestplate",
 ];
 
-export const MISC = ["Demon", "Divine", "Dragon", "Holy"];
+export const MISC = ["Divine", "Holy", "Dragon", "Demon"];
