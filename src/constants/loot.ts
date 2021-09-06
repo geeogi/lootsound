@@ -36,7 +36,7 @@ export const SUFFIXES = [
   "Rage",
   "Fury",
   "Vitriol",
-  "the Fox",
+  "Fox",
   "Detection",
   "Reflection",
   "Twins",

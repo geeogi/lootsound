@@ -1,20 +1,24 @@
 import "./App.css";
 import { CHEST_ARMOR, LOOT, MISC, SUFFIXES, WEAPONS } from "./constants/loot";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RPC_ENDPOINT } from "./constants/eth";
 import { ABI } from "./constants/abi";
 import { Audio } from "./components/Audio";
+import { createEntranceSound } from "./utils/createEntranceSound";
+import { downloadEntranceSound } from "./utils/downloadEntranceSound";
 
 function App() {
   const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider>();
   const [contract, setContract] = useState<ethers.Contract>();
 
   const [contractAddress] = useState(LOOT);
-  const [lootId, setLootId] = useState(7051);
+  const [lootId, setLootId] = useState(6274);
 
   const [userAddress, setUserAddress] = useState<string>();
   const [userLootIds, setUserLootIds] = useState<number[]>();
+
+  const [playEntrance, setPlayEntrance] = useState<() => void>();
 
   const [loot, setLoot] = useState<{
     chest: string;
@@ -68,14 +72,38 @@ function App() {
     }
   }, [contract, lootId]);
 
-  const weapon = loot?.weapon;
-  const armor = CHEST_ARMOR.find((i) => loot?.chest.includes(i));
-  const miscs = MISC.filter((i) =>
-    Object.values(loot || {}).find((j) => j.includes(i))
-  );
-  const suffixes = SUFFIXES.filter((i) =>
-    Object.values(loot || {}).find((j) => j.includes(i))
-  );
+  const { weapon, armor, miscs, suffixes } = useMemo(() => {
+    return {
+      weapon: loot?.weapon,
+      armor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)),
+      miscs: MISC.filter((i) =>
+        Object.values(loot || {}).find((j) => j.includes(i))
+      ),
+      suffixes: SUFFIXES.filter((i) =>
+        Object.values(loot || {}).find((j) => j.includes(i))
+      ),
+    };
+  }, [loot]);
+
+  useEffect(() => {
+    if (weapon && armor && !playEntrance) {
+      createEntranceSound({
+        weapon,
+        armor,
+        misc: miscs[0],
+        suffix: suffixes[0],
+      }).then((entrancePlayer) =>
+        setPlayEntrance(() => () => {
+          entrancePlayer();
+          setPlayEntrance(undefined);
+        })
+      );
+    }
+  }, [playEntrance, weapon, armor, miscs, suffixes]);
+
+  useEffect(() => {
+    setPlayEntrance(undefined);
+  }, [weapon, armor, miscs, suffixes]);
 
   const getAddressLootIdViaMetamask = async () => {
     if (contract) {
@@ -111,7 +139,7 @@ function App() {
         setUserLootIds(newUserLootIds.map(Number));
         setUserAddress(String(newUserAddress));
       } catch (e) {
-        alert("Failed to get Loot balance. Is Metamask unlocked?");
+        alert("Couldn't connect. Is Metamask unlocked?");
         console.error(e);
       }
     }
@@ -133,7 +161,9 @@ function App() {
             onChange={(e) => setLootId(Number(e.target.value))}
           >
             {userLootIds.map((id) => (
-              <option value={id}>{id}</option>
+              <option key={id} value={id}>
+                {id}
+              </option>
             ))}
           </select>
         )}
@@ -152,33 +182,50 @@ function App() {
           . Royalty free, Creative Commons Licensed.
         </p>
       </header>
-      <h2>
-        Bag #
-        <input
-          value={lootId}
-          type="number"
-          onChange={(e) => setLootId(Number(e.target.value))}
-        />
-      </h2>
       <div className="row">
         <div className="left">
+          <h2>
+            Bag #
+            <input
+              value={lootId}
+              type="number"
+              onChange={(e) => setLootId(Number(e.target.value))}
+            />
+          </h2>
           <div className="bag">
             {loot ? (
-              Object.values(loot).map((item) => <p>{item}</p>)
+              Object.values(loot).map((item) => <p key={item}>{item}</p>)
             ) : (
               <p>Loading...</p>
             )}
           </div>
         </div>
         <div className="right">
-          {loot && (
+          {loot && weapon && armor && (
             <>
               <h3>Entrance sound</h3>
+              <button className="JumboAudio green" onClick={playEntrance}>
+                play
+              </button>
+              <button
+                className="JumboAudio"
+                onClick={() =>
+                  downloadEntranceSound({
+                    weapon,
+                    armor,
+                    misc: miscs[0],
+                    suffix: suffixes[0],
+                    filename: `${lootId}.wav`,
+                  })
+                }
+              >
+                download
+              </button>
               <h3>Individual sounds</h3>
               <div className="sounds-row">
                 <div key={weapon}>
                   <p>{weapon}</p>
-                  <Audio src={`/wav/weapons/${weapon}`} />
+                  <Audio src={`/wav/weapons/${weapon}.wav`} />
                 </div>
                 <div key={armor}>
                   <p>{armor}</p>

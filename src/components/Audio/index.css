@@ -9,6 +9,7 @@
   text-align: center;
   min-width: 50px;
   transition: background 0.2s, border 0.2s;
+  margin-right: 8px;
 }
 
 .Audio:hover {
