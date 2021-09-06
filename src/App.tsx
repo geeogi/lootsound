@@ -393,9 +393,9 @@ function App() {
         All sounds have been handpicked from freesound.org and are Creative
         Commons Licensed. Attribution to freesound.org users THE_bizness,
         Jovica, ibm5155, ztrees1, ERH (flute trill f non-comercial),
-        Soughtaftersounds, oscillator, alexkandrell, dersuperanton,
-        EminYILDIRIM, Dpoggioli, InspectorJ, Mega-X-stream, alixgaus (turn page
-        book non-comercial).
+        Soughtaftersounds, CosmisEmbers, oscillator, alexkandrell,
+        dersuperanton, EminYILDIRIM, Dpoggioli, InspectorJ, Mega-X-stream,
+        alixgaus (turn page book non-comercial).
       </p>
       <h2>Source</h2>
       <p>
