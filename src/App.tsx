@@ -41,27 +41,11 @@ function App() {
   }>();
 
   useEffect(() => {
-    if (!provider) {
-      const newProvider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINT);
-      setProvider(newProvider);
-    }
-  }, [provider]);
-
-  useEffect(() => {
-    if (provider) {
-      const newContract = new ethers.Contract(
-        selectedContract.address,
-        ABI,
-        provider
-      );
-      setContract(newContract);
-    }
-  }, [selectedContract, provider]);
-
-  useEffect(() => {
-    if (contract && !loot) {
-      const fetchLoot = async () => {
+    const fetchLoot = async () => {
+      if (contract) {
         setLoading(true);
+        setLoot(undefined);
+        setPlayEntrance(undefined);
 
         const chest = await contract.getChest(lootId);
         const foot = await contract.getFoot(lootId);
@@ -84,34 +68,57 @@ function App() {
           waist,
           weapon,
         });
-      };
+      }
+    };
 
-      fetchLoot();
+    fetchLoot();
+  }, [contract, lootId]);
+
+  useEffect(() => {
+    if (!provider) {
+      const newProvider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINT);
+      setProvider(newProvider);
     }
-  }, [contract, lootId, loot]);
+  }, [provider]);
+
+  useEffect(() => {
+    if (provider) {
+      const newContract = new ethers.Contract(
+        selectedContract.address,
+        ABI,
+        provider
+      );
+      setContract(newContract);
+    }
+  }, [selectedContract, provider]);
 
   // Find sound attributes in Loot
-  const { weapon, armor, miscs, suffixes } = useMemo(() => {
-    return {
-      weapon: WEAPONS.find((i) => loot?.weapon.includes(i))?.replace(" ", "-"),
-      armor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)),
-      miscs: MISC.filter((i) =>
-        Object.values(loot || {}).find((j) => j.includes(i))
-      ),
-      suffixes: SUFFIXES.filter((i) =>
-        Object.values(loot || {}).find((j) => j.includes(i))
-      ),
-    };
+  const soundAttributes = useMemo(() => {
+    if (loot) {
+      return {
+        weapon: WEAPONS.find((i) => loot?.weapon.includes(i))?.replace(
+          " ",
+          "-"
+        ) as string,
+        armor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)) as string,
+        miscs: MISC.filter((i) =>
+          Object.values(loot || {}).find((j) => j.includes(i))
+        ),
+        suffixes: SUFFIXES.filter((i) =>
+          Object.values(loot || {}).find((j) => j.includes(i))
+        ),
+      };
+    }
   }, [loot]);
 
   // Create entrance sound
   useEffect(() => {
-    if (weapon && armor && !playEntrance) {
+    if (soundAttributes && !playEntrance) {
       createEntranceSound({
-        weapon,
-        armor,
-        misc: miscs[0],
-        suffix: suffixes[0],
+        weapon: soundAttributes.weapon,
+        armor: soundAttributes.armor,
+        misc: soundAttributes.miscs[0],
+        suffix: soundAttributes.suffixes[0],
       }).then((entrancePlayer) =>
         setPlayEntrance(() => () => {
           entrancePlayer();
@@ -119,35 +126,23 @@ function App() {
         })
       );
     }
-  }, [playEntrance, weapon, armor, miscs, suffixes]);
-
-  // Recreate entrance sound when attributes change
-  useEffect(() => {
-    setPlayEntrance(undefined);
-  }, [weapon, armor, miscs, suffixes]);
+  }, [playEntrance, soundAttributes]);
 
   const debouncedSetLootId = useMemo(
     () =>
       debounce((id) => {
+        console.log("setting...");
         setLootId(id);
-        setLoot(undefined);
-        setPlayEntrance(undefined);
-      }, 1000),
+      }, 2000),
     []
   );
 
   // Update loot id from input id (debounced)
   useEffect(() => {
-    debouncedSetLootId(lootIdInput);
-    // Loot
-    if (lootIdInput < 8000) {
-      setSelectedContract(CONTRACT_OPTIONS[0]);
+    if (!loading) {
+      debouncedSetLootId(lootIdInput);
     }
-    // mLoot
-    if (lootIdInput > 16000) {
-      setSelectedContract(CONTRACT_OPTIONS[1]);
-    }
-  }, [lootIdInput, debouncedSetLootId]);
+  }, [loading, lootIdInput, debouncedSetLootId]);
 
   const getAddressLootIdViaMetamask = async () => {
     if (contract) {
@@ -211,6 +206,10 @@ function App() {
                 throw new Error("Contract option not found.");
               }
               setSelectedContract(newContract);
+              setLoot(undefined);
+              setContract(undefined);
+              setPlayEntrance(undefined);
+              setLootId(newContract.defaultId);
               setLootIdInput(newContract.defaultId);
             }}
           >
@@ -260,7 +259,7 @@ function App() {
           . Creative Commons Licensed.
         </p>
       </header>
-      <div className="primary-row">
+      <div className="primary-row" key={`${lootId}-${loading}`}>
         <h2>
           Bag #
           <input
@@ -269,22 +268,27 @@ function App() {
             onChange={(e) => setLootIdInput(Number(e.target.value))}
           />
         </h2>
-        <button className="JumboAudio green" onClick={playEntrance}>
+        <button
+          className="JumboAudio green"
+          onClick={playEntrance}
+          key={`play-${lootId}`}
+        >
           {loading ? "loading" : "play"}
         </button>
         <button
           className="JumboAudio"
           onClick={() => {
-            if (weapon && armor) {
+            if (soundAttributes) {
               downloadEntranceSound({
-                weapon,
-                armor,
-                misc: miscs[0],
-                suffix: suffixes[0],
+                weapon: soundAttributes.weapon,
+                armor: soundAttributes.armor,
+                misc: soundAttributes.miscs[0],
+                suffix: soundAttributes.suffixes[0],
                 filename: `${lootId}.wav`,
               });
             }
           }}
+          key={`download-${lootId}`}
         >
           {loading ? "loading" : "download"}
         </button>{" "}
@@ -300,27 +304,27 @@ function App() {
           </div>
         </div>
         <div className="right">
-          <h3>Individual sounds</h3>
+          <h3>Bag sounds</h3>
           <div className="sounds-row">
-            {loading ? (
+            {!soundAttributes ? (
               <p>loading...</p>
             ) : (
               <>
-                <div key={weapon}>
-                  <p>{weapon}</p>
-                  <Audio src={`/wav/weapons/${weapon}.wav`} />
+                <div key={soundAttributes.weapon}>
+                  <p>{soundAttributes.weapon}</p>
+                  <Audio src={`/wav/weapons/${soundAttributes.weapon}.wav`} />
                 </div>
-                <div key={armor}>
-                  <p>{armor}</p>
-                  <Audio src={`/wav/chestArmor/${armor}.wav`} />
+                <div key={soundAttributes.armor}>
+                  <p>{soundAttributes.armor}</p>
+                  <Audio src={`/wav/chestArmor/${soundAttributes.armor}.wav`} />
                 </div>
-                {miscs.map((misc) => (
+                {soundAttributes.miscs.map((misc) => (
                   <div key={misc}>
                     <p>{misc}</p>
                     <Audio src={`/wav/misc/${misc}.wav`} />
                   </div>
                 ))}
-                {suffixes.map((suffix) => (
+                {soundAttributes.suffixes.map((suffix) => (
                   <div key={suffix}>
                     <p>{suffix}</p>
                     <Audio src={`/wav/suffixes/${suffix}.wav`} />
@@ -391,7 +395,7 @@ function App() {
       <h2>Source</h2>
       <p>
         This site is{" "}
-        <a href="https://github.com/geeogi/lootsound">open source</a>. Made by{" "}
+        <a href="https://github.com/geeogi/lootsound">open source</a>. By{" "}
         <a href="https://twitter.com/geeogi">@geeogi</a>.
       </p>
     </div>

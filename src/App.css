@@ -69,6 +69,10 @@
   max-width: max(350px, 40%);
 }
 
+.right h3 {
+  margin-top: 8px;
+}
+
 .bag {
   background: #000000;
   width: 300px;

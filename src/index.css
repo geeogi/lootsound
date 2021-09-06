@@ -133,7 +133,8 @@ select {
   appearance: none;
   margin: 0;
   padding: 2px 4px 2px 8px;
-  background: #000000;
+  background: #111111;
   border: solid 1px #333333;
   color: #999;
+  font-size: 18px;
 }
