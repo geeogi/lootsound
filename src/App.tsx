@@ -256,7 +256,7 @@ function App() {
           >
             Loot
           </a>
-          . Creative Commons Licensed.
+          . Creative Commons.
         </p>
       </header>
       <div className="primary-row" key={`${lootId}-${loading}`}>
@@ -379,6 +379,11 @@ function App() {
           ))}
         </div>
       </div>
+      <h2>How to use</h2>
+      <p>
+        Enter a bag id above to hear the bag sounds. Access the individual
+        sounds e.g. "https://lootsound.com/wav/weapons/Ghost-Wand.wav".
+      </p>
       <h2>Download</h2>
       <a href="/wav.zip" download>
         Download zip file of all sounds.

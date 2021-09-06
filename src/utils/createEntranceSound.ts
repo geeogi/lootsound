@@ -11,7 +11,7 @@ export const createEntranceSound = async (args: {
   const { weapon, armor, misc, suffix } = args;
 
   if (!AudioContext) {
-    alert("Web audio not available");
+    alert("Web audio not available.");
   }
 
   const weaponBufferSourceNode = ac.createBufferSource();

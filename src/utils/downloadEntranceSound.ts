@@ -14,7 +14,7 @@ export const downloadEntranceSound = async (args: {
   const { weapon, armor, misc, suffix, filename } = args;
 
   if (!OfflineAudioContext) {
-    alert("Web audio not available");
+    alert("Web audio not available.");
   }
 
   const weaponBufferSourceNode = oac.createBufferSource();
