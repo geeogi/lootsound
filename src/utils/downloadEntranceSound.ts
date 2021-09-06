@@ -26,7 +26,7 @@ export const downloadEntranceSound = async (args: {
 
   promises.push(
     new Promise<void>((resolve) => {
-      fetch(new Request(`/wav/weapons/${weapon}.wav`)).then((songAudio) => {
+      fetch(new Request(`/mp3/weapons/${weapon}.mp3`)).then((songAudio) => {
         songAudio.arrayBuffer().then((buffer) => {
           oac.decodeAudioData(buffer, (decodedData) => {
             weaponBufferSourceNode.buffer = decodedData;
@@ -39,7 +39,7 @@ export const downloadEntranceSound = async (args: {
 
   promises.push(
     new Promise<void>((resolve) => {
-      fetch(new Request(`/wav/chestArmor/${armor}.wav`)).then((songAudio) => {
+      fetch(new Request(`/mp3/chestArmor/${armor}.mp3`)).then((songAudio) => {
         songAudio.arrayBuffer().then((buffer) => {
           oac.decodeAudioData(buffer, (decodedData) => {
             armorBufferSourceNode.buffer = decodedData;
@@ -53,7 +53,7 @@ export const downloadEntranceSound = async (args: {
   if (misc) {
     promises.push(
       new Promise<void>((resolve) => {
-        fetch(new Request(`/wav/misc/${misc}.wav`)).then((songAudio) => {
+        fetch(new Request(`/mp3/misc/${misc}.mp3`)).then((songAudio) => {
           songAudio.arrayBuffer().then((buffer) => {
             oac.decodeAudioData(buffer, (decodedData) => {
               miscBufferSourceNode.buffer = decodedData;
@@ -68,7 +68,7 @@ export const downloadEntranceSound = async (args: {
   if (suffix) {
     promises.push(
       new Promise<void>((resolve) => {
-        fetch(new Request(`/wav/suffixes/${suffix}.wav`)).then((songAudio) => {
+        fetch(new Request(`/mp3/suffixes/${suffix}.mp3`)).then((songAudio) => {
           songAudio.arrayBuffer().then((buffer) => {
             oac.decodeAudioData(buffer, (decodedData) => {
               suffixBufferSourceNoce.buffer = decodedData;

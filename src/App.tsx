@@ -284,7 +284,7 @@ function App() {
                 armor: soundAttributes.armor,
                 misc: soundAttributes.miscs[0],
                 suffix: soundAttributes.suffixes[0],
-                filename: `${lootId}.wav`,
+                filename: `${lootId}.mp3`,
               });
             }
           }}
@@ -312,22 +312,22 @@ function App() {
               <>
                 <div key={soundAttributes.weapon}>
                   <p>{soundAttributes.weapon}</p>
-                  <Audio src={`/wav/weapons/${soundAttributes.weapon}.wav`} />
+                  <Audio src={`/mp3/weapons/${soundAttributes.weapon}.mp3`} />
                 </div>
                 <div key={soundAttributes.armor}>
                   <p>{soundAttributes.armor}</p>
-                  <Audio src={`/wav/chestArmor/${soundAttributes.armor}.wav`} />
+                  <Audio src={`/mp3/chestArmor/${soundAttributes.armor}.mp3`} />
                 </div>
                 {soundAttributes.miscs.map((misc) => (
                   <div key={misc}>
                     <p>{misc}</p>
-                    <Audio src={`/wav/misc/${misc}.wav`} />
+                    <Audio src={`/mp3/misc/${misc}.mp3`} />
                   </div>
                 ))}
                 {soundAttributes.suffixes.map((suffix) => (
                   <div key={suffix}>
                     <p>{suffix}</p>
-                    <Audio src={`/wav/suffixes/${suffix}.wav`} />
+                    <Audio src={`/mp3/suffixes/${suffix}.mp3`} />
                   </div>
                 ))}
               </>
@@ -342,7 +342,7 @@ function App() {
           {WEAPONS.map((i) => i.replace(" ", "-")).map((weapon) => (
             <div key={weapon}>
               <p>{weapon}</p>
-              <Audio src={`/wav/weapons/${weapon}.wav`} />
+              <Audio src={`/mp3/weapons/${weapon}.mp3`} />
             </div>
           ))}
         </div>
@@ -351,7 +351,7 @@ function App() {
           {CHEST_ARMOR.map((chestArmor) => (
             <div key={chestArmor}>
               <p>{chestArmor}</p>
-              <Audio src={`/wav/chestArmor/${chestArmor}.wav`} />
+              <Audio src={`/mp3/chestArmor/${chestArmor}.mp3`} />
             </div>
           ))}
         </div>
@@ -361,10 +361,10 @@ function App() {
             <div key={suffix}>
               <p>{suffix}</p>
               <Audio
-                src={`/wav/suffixes/${suffix
+                src={`/mp3/suffixes/${suffix
                   .replace(" ", "")
                   .replace("of", "")
-                  .replace("the", "")}.wav`}
+                  .replace("the", "")}.mp3`}
               />
             </div>
           ))}
@@ -374,7 +374,7 @@ function App() {
           {MISC.map((misc) => (
             <div key={misc}>
               <p>{misc}</p>
-              <Audio src={`/wav/misc/${misc}.wav`} />
+              <Audio src={`/mp3/misc/${misc}.mp3`} />
             </div>
           ))}
         </div>
@@ -382,7 +382,7 @@ function App() {
       <h2>How to use</h2>
       <p>
         Enter a bag id above to hear the bag sounds. Access the individual
-        sounds e.g. "https://lootsound.com/wav/weapons/Ghost-Wand.wav".
+        sounds e.g. "https://lootsound.com/mp3/weapons/Ghost-Wand.mp3".
       </p>
       <h2>Download</h2>
       <a href="/wav.zip" download>
