@@ -379,10 +379,14 @@ function App() {
           ))}
         </div>
       </div>
-      <h2>How to use</h2>
+      <h2>Info</h2>
       <p>
-        Enter a bag id above to hear the bag sounds. Access the individual
-        sounds e.g. "https://lootsound.com/mp3/weapons/Ghost-Wand.mp3".
+        Enter a bag id above to hear the bag sounds. Connect with Metamask to
+        hear the bags in your wallet (beta). Top-left toggle for Loot, mLoot,
+        xLoot. Not every item/material is covered by lootsound yet, add sounds{" "}
+        <a href="https://github.com/geeogi/lootsound">here</a>. Access the
+        individual sounds via URL e.g.
+        https://lootsound.com/mp3/weapons/Ghost-Wand.mp3.
       </p>
       <h2>Download</h2>
       <a href="/wav.zip" download>
