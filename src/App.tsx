@@ -409,8 +409,7 @@ function App() {
       <h2>Source</h2>
       <p>
         This site is{" "}
-        <a href="https://github.com/geeogi/lootsound">open source</a>. By{" "}
-        <a href="https://twitter.com/geeogi">@geeogi</a>.
+        <a href="https://github.com/geeogi/lootsound">open source</a>.
       </p>
     </div>
   );
