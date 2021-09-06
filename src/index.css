@@ -7,10 +7,133 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+h1 {
+  margin: 8px;
+  font-size: 5rem;
+}
+
+h2 {
+  margin: 8px;
+  margin-top: 36px;
+  font-size: 2rem;
+}
+
+h3 {
+  margin: 8px;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  color: rgb(190, 190, 190);
+}
+
+p {
+  margin-top: 0px;
+  color: rgb(150, 150, 150);
+}
+
+a {
+  color: rgb(150, 150, 150);
+}
+
+input {
+  background: #000;
+  color: #ffffff;
+  margin: 0;
+  padding: 0px 4px;
+  border: solid 1px #222;
+  font-size: 2rem;
+  width: 200px;
+  margin-left: 4px;
+}
+
+button {
+  background: #333;
+  color: #ffffff;
+  padding: 3px 8px;
+  margin: 0;
+  border: solid 1px #444;
+  font-size: 14px;
+  border-radius: 2px;
+  text-align: center;
+  min-width: 50px;
+  transition: background 0.2s, border 0.2s;
+  margin-right: 8px;
+}
+
+button:hover {
+  background: #444;
+  border: solid 1px #555;
+}
+
 * {
   font-family: EB Garamond, serif, sans-serif;
 }
 
 button {
   cursor: pointer;
+}
+
+select {
+  display: block;
+  font: inherit;
+  line-height: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 2px 4px 2px 8px;
+  background: #000000;
+  border: solid 1px #333333;
+  color: #999;
 }

@@ -1,6 +1,12 @@
-export const LOOT = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
-export const MLOOT = "0x1dfe7Ca09e99d10835Bf73044a23B73Fc20623DF";
-export const XLOOT = "0x8bf2f876E2dCD2CAe9C3d272f325776c82DA366d";
+const LOOT = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
+const MLOOT = "0x1dfe7Ca09e99d10835Bf73044a23B73Fc20623DF";
+const XLOOT = "0x8bf2f876E2dCD2CAe9C3d272f325776c82DA366d";
+
+export const CONTRACT_OPTIONS = [
+  { name: "Loot", address: LOOT },
+  { name: "mLoot", address: MLOOT },
+  { name: "xLoot", address: XLOOT },
+];
 
 export const WEAPONS = [
   "Warhammer",
