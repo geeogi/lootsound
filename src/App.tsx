@@ -251,13 +251,13 @@ function App() {
         <p>
           Sound for{" "}
           <a
-            href="https://lootproject.org"
+            href="https://lootproject.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Loot
           </a>
-          . Royalty free, Creative Commons Licensed.
+          . Creative Commons Licensed.
         </p>
       </header>
       <div className="primary-row">
@@ -376,13 +376,23 @@ function App() {
         </div>
       </div>
       <h2>Download</h2>
-      <a href="/images/myw3schoolsimage.jpg" download>
+      <a href="/wav.zip" download>
         Download zip file of all sounds.
       </a>
       <h2>License</h2>
       <p>
         All sounds have been handpicked from freesound.org and are Creative
-        Commons Licensed.
+        Commons Licensed. Attribution to freesound.org users THE_bizness,
+        Jovica, ibm5155, ztrees1, ERH (flute trill f non-comercial),
+        Soughtaftersounds, oscillator, alexkandrell, dersuperanton,
+        EminYILDIRIM, Dpoggioli, InspectorJ, Mega-X-stream, alixgaus (turn page
+        book non-comercial).
+      </p>
+      <h2>Source</h2>
+      <p>
+        This site is{" "}
+        <a href="https://github.com/geeogi/lootsound">open source</a>. Made by{" "}
+        <a href="https://twitter.com/geeogi">@geeogi</a>.
       </p>
     </div>
   );

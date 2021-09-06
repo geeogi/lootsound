@@ -3,6 +3,8 @@
 .app {
   font-size: 22px;
   padding: 20px;
+  max-width: 800px;
+  margin: auto;
 }
 
 .header {
