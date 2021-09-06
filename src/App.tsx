@@ -248,7 +248,7 @@ function App() {
       <header className="header">
         <h1>Loot sound</h1>
         <p>
-          Sound for{" "}
+          Sounds for{" "}
           <a
             href="https://lootproject.com"
             target="_blank"
@@ -256,7 +256,7 @@ function App() {
           >
             Loot
           </a>
-          . Creative Commons.
+          . Sourced from freesound.org.
         </p>
       </header>
       <div className="primary-row" key={`${lootId}-${loading}`}>
