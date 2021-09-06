@@ -388,6 +388,11 @@ function App() {
         individual sounds via URL e.g.
         https://lootsound.com/mp3/weapons/Ghost-Wand.mp3.
       </p>
+      <h2>Aim</h2>
+      <p>
+        To give loot builders CC sounds ready to use. Alternative sound packs
+        could follow a similar structure.
+      </p>
       <h2>Download</h2>
       <a href="/wav.zip" download>
         Download zip file of all sounds.
