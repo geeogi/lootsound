@@ -18,9 +18,10 @@ import { debounce } from "lodash";
 function App() {
   const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider>();
   const [contract, setContract] = useState<ethers.Contract>();
+  const [loading, setLoading] = useState(false);
 
   const [selectedContract, setSelectedContract] = useState(CONTRACT_OPTIONS[0]);
-  const [lootId, setLootId] = useState(6274);
+  const [lootId, setLootId] = useState(selectedContract.defaultId);
   const [lootIdInput, setLootIdInput] = useState(lootId);
 
   const [userAddress, setUserAddress] = useState<string>();
@@ -58,8 +59,10 @@ function App() {
   }, [selectedContract, provider]);
 
   useEffect(() => {
-    if (contract) {
+    if (contract && !loot) {
       const fetchLoot = async () => {
+        setLoading(true);
+
         const chest = await contract.getChest(lootId);
         const foot = await contract.getFoot(lootId);
         const hand = await contract.getHand(lootId);
@@ -68,6 +71,8 @@ function App() {
         const ring = await contract.getRing(lootId);
         const waist = await contract.getWaist(lootId);
         const weapon = await contract.getWeapon(lootId);
+
+        setLoading(false);
 
         setLoot({
           chest,
@@ -80,10 +85,12 @@ function App() {
           weapon,
         });
       };
+
       fetchLoot();
     }
-  }, [contract, lootId]);
+  }, [contract, lootId, loot]);
 
+  // Find sound attributes in Loot
   const { weapon, armor, miscs, suffixes } = useMemo(() => {
     return {
       weapon: WEAPONS.find((i) => loot?.weapon.includes(i))?.replace(" ", "-"),
@@ -97,6 +104,7 @@ function App() {
     };
   }, [loot]);
 
+  // Create entrance sound
   useEffect(() => {
     if (weapon && armor && !playEntrance) {
       createEntranceSound({
@@ -113,14 +121,32 @@ function App() {
     }
   }, [playEntrance, weapon, armor, miscs, suffixes]);
 
+  // Recreate entrance sound when attributes change
   useEffect(() => {
     setPlayEntrance(undefined);
   }, [weapon, armor, miscs, suffixes]);
 
-  const debouncedSetLootId = useMemo(() => debounce(setLootId, 1000), []);
+  const debouncedSetLootId = useMemo(
+    () =>
+      debounce((id) => {
+        setLootId(id);
+        setLoot(undefined);
+        setPlayEntrance(undefined);
+      }, 1000),
+    []
+  );
 
+  // Update loot id from input id (debounced)
   useEffect(() => {
     debouncedSetLootId(lootIdInput);
+    // Loot
+    if (lootIdInput < 8000) {
+      setSelectedContract(CONTRACT_OPTIONS[0]);
+    }
+    // mLoot
+    if (lootIdInput > 16000) {
+      setSelectedContract(CONTRACT_OPTIONS[1]);
+    }
   }, [lootIdInput, debouncedSetLootId]);
 
   const getAddressLootIdViaMetamask = async () => {
@@ -150,14 +176,21 @@ function App() {
         const newUserLootIds = await Promise.all(promises);
 
         if (newUserLootIds.length === 0) {
-          alert(`No Loot found for ${newUserAddress.slice(0, 12)}.`);
+          alert(
+            `No ${selectedContract.name} found for ${newUserAddress.slice(
+              0,
+              12
+            )}.`
+          );
         }
 
-        setLootId(Number(newUserLootIds[0]));
-        setUserLootIds(newUserLootIds.map(Number));
-        setUserAddress(String(newUserAddress));
+        if (newUserLootIds.length > 0) {
+          setLootIdInput(Number(newUserLootIds[0]));
+          setUserLootIds(newUserLootIds.map(Number));
+          setUserAddress(String(newUserAddress));
+        }
       } catch (e) {
-        alert("Couldn't connect. Is Metamask unlocked?");
+        alert("Unable to connect. Is Metamask unlocked?");
         console.error(e);
       }
     }
@@ -178,6 +211,7 @@ function App() {
                 throw new Error("Contract option not found.");
               }
               setSelectedContract(newContract);
+              setLootIdInput(newContract.defaultId);
             }}
           >
             {CONTRACT_OPTIONS.map((contractOption) => (
@@ -205,7 +239,7 @@ function App() {
             >
               {userLootIds.map((id) => (
                 <option key={id} value={id}>
-                  {id}
+                  {id} ▿
                 </option>
               ))}
             </select>
@@ -235,27 +269,25 @@ function App() {
             onChange={(e) => setLootIdInput(Number(e.target.value))}
           />
         </h2>
-        {loot && weapon && armor && (
-          <>
-            <button className="JumboAudio green" onClick={playEntrance}>
-              play
-            </button>
-            <button
-              className="JumboAudio"
-              onClick={() =>
-                downloadEntranceSound({
-                  weapon,
-                  armor,
-                  misc: miscs[0],
-                  suffix: suffixes[0],
-                  filename: `${lootId}.wav`,
-                })
-              }
-            >
-              download
-            </button>{" "}
-          </>
-        )}
+        <button className="JumboAudio green" onClick={playEntrance}>
+          {loading ? "loading" : "play"}
+        </button>
+        <button
+          className="JumboAudio"
+          onClick={() => {
+            if (weapon && armor) {
+              downloadEntranceSound({
+                weapon,
+                armor,
+                misc: miscs[0],
+                suffix: suffixes[0],
+                filename: `${lootId}.wav`,
+              });
+            }
+          }}
+        >
+          {loading ? "loading" : "download"}
+        </button>{" "}
       </div>
       <div className="secondary-row">
         <div className="left">
@@ -263,15 +295,17 @@ function App() {
             {loot ? (
               Object.values(loot).map((item) => <p key={item}>{item}</p>)
             ) : (
-              <p>Loading...</p>
+              <p>loading...</p>
             )}
           </div>
         </div>
         <div className="right">
-          {loot && weapon && armor && (
-            <>
-              <h3>Individual sounds</h3>
-              <div className="sounds-row">
+          <h3>Individual sounds</h3>
+          <div className="sounds-row">
+            {loading ? (
+              <p>loading...</p>
+            ) : (
+              <>
                 <div key={weapon}>
                   <p>{weapon}</p>
                   <Audio src={`/wav/weapons/${weapon}.wav`} />
@@ -292,9 +326,9 @@ function App() {
                     <Audio src={`/wav/suffixes/${suffix}.wav`} />
                   </div>
                 ))}
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
       <h2>All sounds</h2>
@@ -347,7 +381,7 @@ function App() {
       </a>
       <h2>License</h2>
       <p>
-        All sounds have been handpicked from Freesound.org and are Creative
+        All sounds have been handpicked from freesound.org and are Creative
         Commons Licensed.
       </p>
     </div>

@@ -25,6 +25,7 @@
   font-weight: bold;
   font-size: 16px;
   border-radius: 4px;
+  margin-bottom: 8px;
 }
 
 .primary-row {
@@ -47,10 +48,12 @@
 }
 
 .left {
+  min-width: 40%;
   max-width: max(350px, 40%);
 }
 
 .right {
+  min-width: 40%;
   max-width: max(350px, 40%);
 }
 
@@ -67,6 +70,7 @@
   color: #ffffff;
   margin: 0px;
   margin-bottom: 4px;
+  font-size: 20px;
 }
 
 .sounds-row {
@@ -84,16 +88,17 @@
 }
 
 .sounds-row > div {
-  min-width: 100px;
+  min-width: 140px;
 }
 
 .sounds-row > div > audio {
 }
 
 .JumboAudio {
-  font-size: 1.7rem;
-  padding: 4px 16px;
-  min-width: 50px;
+  line-height: 0;
+  font-size: 1.5rem;
+  padding: 20px 16px;
+  min-width: 150px;
   margin-left: 8px;
 }
 
