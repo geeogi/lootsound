@@ -23,7 +23,7 @@
   background: #111;
   color: rgb(150, 150, 150);
   padding: 8px;
-  border: solid 1px #333;
+  border: solid 1px #222;
   font-weight: bold;
   font-size: 16px;
   border-radius: 4px;
@@ -75,6 +75,7 @@
 
 .bag {
   background: #000000;
+  border: solid 1px #333;
   width: 300px;
   height: 300px;
   padding: 20px;
@@ -128,13 +129,11 @@
 }
 
 .green {
-  background: green;
-  border: solid 1px lightgreen;
+  background: darkgreen;
+  border: outset 4px green;
 }
 
 .green:hover {
-  background: green;
-  border: solid 1px lightgreen;
   filter: brightness(1.1);
 }
 
