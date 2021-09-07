@@ -259,6 +259,7 @@ function App() {
           . Sourced from freesound.org.
         </p>
       </header>
+      <p className="mobile-notice">Turn device sound on.</p>
       <div className="primary-row" key={`${lootId}-${loading}`}>
         <h2>
           Bag #

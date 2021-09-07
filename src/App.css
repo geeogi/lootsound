@@ -137,3 +137,16 @@
   border: solid 1px lightgreen;
   filter: brightness(1.1);
 }
+
+.mobile-notice {
+  display: none;
+  text-align: center;
+  color: lightgreen;
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 600px) {
+  .mobile-notice {
+    display: block;
+  }
+}
