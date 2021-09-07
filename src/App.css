@@ -30,10 +30,6 @@
   margin-bottom: 8px;
 }
 
-.metamask-button:hover {
-  background: #222;
-}
-
 @media only screen and (max-width: 600px) {
   .metamask-button {
     display: none;
@@ -60,13 +56,13 @@
 }
 
 .left {
-  min-width: 40%;
-  max-width: max(350px, 40%);
+  min-width: 49%;
+  max-width: max(350px, 49%);
 }
 
 .right {
-  min-width: 40%;
-  max-width: max(350px, 40%);
+  min-width: 49%;
+  max-width: max(350px, 49%);
 }
 
 .right h3 {

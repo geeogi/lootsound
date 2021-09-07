@@ -99,11 +99,11 @@ input {
 }
 
 button {
-  background: linear-gradient(#9b111e, #810e19, #9b111e);
+  background: #3f2a14;
   color: #ffffff;
   padding: 4px 12px 8px 12px;
   margin: 0;
-  border: outset 4px #9b111e;
+  border: outset 4px #654321;
   font-size: 14px;
   border-radius: 2px;
   text-align: center;

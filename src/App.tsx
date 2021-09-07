@@ -15,13 +15,15 @@ import { createEntranceSound } from "./utils/createEntranceSound";
 import { downloadEntranceSound } from "./utils/downloadEntranceSound";
 import { debounce } from "lodash";
 
+const randomLootId = Math.round(Math.random() * 8000);
+
 function App() {
   const [provider, setProvider] = useState<ethers.providers.JsonRpcProvider>();
   const [contract, setContract] = useState<ethers.Contract>();
   const [loading, setLoading] = useState(false);
 
   const [selectedContract, setSelectedContract] = useState(CONTRACT_OPTIONS[0]);
-  const [lootId, setLootId] = useState(selectedContract.defaultId);
+  const [lootId, setLootId] = useState(randomLootId);
   const [lootIdInput, setLootIdInput] = useState(lootId);
 
   const [userAddress, setUserAddress] = useState<string>();
