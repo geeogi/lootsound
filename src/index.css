@@ -99,12 +99,12 @@ input {
 }
 
 button {
-  background: #3f2a14;
+  background: #222;
   color: #ffffff;
-  padding: 4px 12px 8px 12px;
+  padding: 7px 12px 9px 12px;
   margin: 0;
-  border: outset 4px #654321;
-  font-size: 14px;
+  border: outset 4px #111;
+  font-size: 16px;
   border-radius: 2px;
   text-align: center;
   min-width: 70px;

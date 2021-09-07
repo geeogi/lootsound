@@ -313,25 +313,23 @@ function App() {
               <p>loading...</p>
             ) : (
               <>
-                <div key={soundAttributes.weapon}>
-                  <p>{soundAttributes.weapon}</p>
-                  <Audio src={`/mp3/weapons/${soundAttributes.weapon}.mp3`} />
-                </div>
-                <div key={soundAttributes.armor}>
-                  <p>{soundAttributes.armor}</p>
-                  <Audio src={`/mp3/chestArmor/${soundAttributes.armor}.mp3`} />
-                </div>
+                <Audio
+                  src={`/mp3/weapons/${soundAttributes.weapon}.mp3`}
+                  text={soundAttributes.weapon}
+                />
+                <Audio
+                  src={`/mp3/chestArmor/${soundAttributes.armor}.mp3`}
+                  text={soundAttributes.armor}
+                />
                 {soundAttributes.miscs.map((misc) => (
-                  <div key={misc}>
-                    <p>{misc}</p>
-                    <Audio src={`/mp3/misc/${misc}.mp3`} />
-                  </div>
+                  <Audio text={misc} key={misc} src={`/mp3/misc/${misc}.mp3`} />
                 ))}
                 {soundAttributes.suffixes.map((suffix) => (
-                  <div key={suffix}>
-                    <p>{suffix}</p>
-                    <Audio src={`/mp3/suffixes/${suffix}.mp3`} />
-                  </div>
+                  <Audio
+                    key={suffix}
+                    text={suffix}
+                    src={`/mp3/suffixes/${suffix}.mp3`}
+                  />
                 ))}
               </>
             )}
@@ -343,42 +341,40 @@ function App() {
         <h3>weapons</h3>
         <div className="sounds-row">
           {WEAPONS.map((i) => i.replace(" ", "-")).map((weapon) => (
-            <div key={weapon}>
-              <p>{weapon}</p>
-              <Audio src={`/mp3/weapons/${weapon}.mp3`} />
-            </div>
+            <Audio
+              key={weapon}
+              src={`/mp3/weapons/${weapon}.mp3`}
+              text={weapon}
+            />
           ))}
         </div>
         <h3>chestArmor</h3>
         <div className="sounds-row">
           {CHEST_ARMOR.map((chestArmor) => (
-            <div key={chestArmor}>
-              <p>{chestArmor}</p>
-              <Audio src={`/mp3/chestArmor/${chestArmor}.mp3`} />
-            </div>
+            <Audio
+              key={chestArmor}
+              text={chestArmor}
+              src={`/mp3/chestArmor/${chestArmor}.mp3`}
+            />
           ))}
         </div>
         <h3>suffixes</h3>
         <div className="sounds-row">
           {SUFFIXES.map((suffix) => (
-            <div key={suffix}>
-              <p>{suffix}</p>
-              <Audio
-                src={`/mp3/suffixes/${suffix
-                  .replace(" ", "")
-                  .replace("of", "")
-                  .replace("the", "")}.mp3`}
-              />
-            </div>
+            <Audio
+              key={suffix}
+              text={suffix}
+              src={`/mp3/suffixes/${suffix
+                .replace(" ", "")
+                .replace("of", "")
+                .replace("the", "")}.mp3`}
+            />
           ))}
         </div>
         <h3>misc.</h3>
         <div className="sounds-row">
           {MISC.map((misc) => (
-            <div key={misc}>
-              <p>{misc}</p>
-              <Audio src={`/mp3/misc/${misc}.mp3`} />
-            </div>
+            <Audio key={misc} text={misc} src={`/mp3/misc/${misc}.mp3`} />
           ))}
         </div>
       </div>
@@ -386,15 +382,24 @@ function App() {
       <p>
         Enter a bag id above to hear the bag sounds. Connect with Metamask to
         hear the bags in your wallet (beta). Top-left toggle for Loot, mLoot,
-        xLoot. Not every item/material is covered by lootsound yet, add sounds{" "}
-        <a href="https://github.com/geeogi/lootsound">here</a>. Access the
-        individual sounds via URL e.g.
-        https://lootsound.com/mp3/weapons/Ghost-Wand.mp3.
+        xLoot.
+      </p>
+      <h2>Usage</h2>
+      <p>
+        Access the individual sounds via URL e.g.
+        https://lootsound.com/mp3/weapons/Ghost-Wand.mp3 or download all sounds
+        below.
       </p>
       <h2>Aim</h2>
       <p>
         To give loot builders CC sounds ready to use. Alternative sound packs
         could follow a similar structure.
+      </p>
+      <h2>Development</h2>
+      <p>
+        Not every item/material is covered by lootsound yet, add sounds and
+        alternative sound packs{" "}
+        <a href="https://github.com/geeogi/lootsound">here</a>.
       </p>
       <h2>Download</h2>
       <a href="/wav.zip" download>

@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
 import "./index.css";
 
-export function Audio(props: { src: string }): React.ReactElement {
-  const { src } = props;
+export function Audio(props: {
+  src: string;
+  text?: string;
+}): React.ReactElement {
+  const { src, text } = props;
   const ref = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState(false);
@@ -22,7 +25,7 @@ export function Audio(props: { src: string }): React.ReactElement {
           }
         }}
       >
-        {error ? "error " : isPlaying ? "stop" : "play"}
+        {error ? "error " : isPlaying ? "stop" : text || "play"}
       </button>
       <audio
         src={src}
