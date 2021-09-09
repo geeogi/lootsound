@@ -2,6 +2,7 @@ import "./App.css";
 import {
   CHEST_ARMOR,
   CONTRACT_OPTIONS,
+  FOOT_ARMOR,
   MISC,
   SUFFIXES,
   WEAPONS,
@@ -102,7 +103,8 @@ function App() {
           " ",
           "-"
         ) as string,
-        armor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)) as string,
+        chestArmor: CHEST_ARMOR.find((i) => loot?.chest.includes(i)) as string,
+        footArmor: FOOT_ARMOR.find((i) => loot?.foot.includes(i)) as string,
         miscs: MISC.filter((i) =>
           Object.values(loot || {}).find((j) => j.includes(i))
         ),
@@ -118,7 +120,7 @@ function App() {
     if (soundAttributes && !playEntrance) {
       createEntranceSound({
         weapon: soundAttributes.weapon,
-        armor: soundAttributes.armor,
+        chestArmor: soundAttributes.chestArmor,
         misc: soundAttributes.miscs[0],
         suffix: soundAttributes.suffixes[0],
       }).then((entrancePlayer) =>
@@ -284,7 +286,7 @@ function App() {
             if (soundAttributes) {
               downloadEntranceSound({
                 weapon: soundAttributes.weapon,
-                armor: soundAttributes.armor,
+                chestArmor: soundAttributes.chestArmor,
                 misc: soundAttributes.miscs[0],
                 suffix: soundAttributes.suffixes[0],
                 filename: `${lootId}.mp3`,
@@ -318,8 +320,16 @@ function App() {
                   text={soundAttributes.weapon}
                 />
                 <Audio
-                  src={`/mp3/chestArmor/${soundAttributes.armor}.mp3`}
-                  text={soundAttributes.armor}
+                  src={`/mp3/chestArmor/${soundAttributes.chestArmor}.mp3`}
+                  text={soundAttributes.chestArmor}
+                />
+                <Audio
+                  src={`/mp3/footArmor/${soundAttributes.footArmor}_1.mp3`}
+                  text={`${soundAttributes.footArmor} (L)`}
+                />
+                <Audio
+                  src={`/mp3/footArmor/${soundAttributes.footArmor}_2.mp3`}
+                  text={`${soundAttributes.footArmor} (R)`}
                 />
                 {soundAttributes.miscs.map((misc) => (
                   <Audio text={misc} key={misc} src={`/mp3/misc/${misc}.mp3`} />
@@ -356,6 +366,23 @@ function App() {
               text={chestArmor}
               src={`/mp3/chestArmor/${chestArmor}.mp3`}
             />
+          ))}
+        </div>
+        <h3>footArmor</h3>
+        <div className="sounds-row">
+          {FOOT_ARMOR.map((footArmor) => (
+            <>
+              <Audio
+                key={footArmor}
+                text={`${footArmor} (L)`}
+                src={`/mp3/footArmor/${footArmor}_1.mp3`}
+              />
+              <Audio
+                key={footArmor}
+                text={`${footArmor} (R)`}
+                src={`/mp3/footArmor/${footArmor}_2.mp3`}
+              />
+            </>
           ))}
         </div>
         <h3>suffixes</h3>

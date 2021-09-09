@@ -6,12 +6,12 @@ const oac = new OfflineAudioContext(2, 44100 * 10, 44100);
 
 export const downloadEntranceSound = async (args: {
   weapon: string;
-  armor: string;
+  chestArmor: string;
   misc?: string;
   suffix?: string;
   filename: string;
 }) => {
-  const { weapon, armor, misc, suffix, filename } = args;
+  const { weapon, chestArmor: armor, misc, suffix, filename } = args;
 
   if (!OfflineAudioContext) {
     alert("Web audio not available.");

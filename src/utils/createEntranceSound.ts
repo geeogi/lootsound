@@ -4,11 +4,11 @@ export const ac = new AudioContext();
 
 export const createEntranceSound = async (args: {
   weapon: string;
-  armor: string;
+  chestArmor: string;
   misc?: string;
   suffix?: string;
 }) => {
-  const { weapon, armor, misc, suffix } = args;
+  const { weapon, chestArmor: armor, misc, suffix } = args;
 
   if (!AudioContext) {
     alert("Web audio not available.");

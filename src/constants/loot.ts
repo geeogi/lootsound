@@ -57,4 +57,6 @@ export const CHEST_ARMOR = [
   "Chestplate",
 ];
 
+export const FOOT_ARMOR = ["Greaves", "Boots", "Shoes", "Slippers"];
+
 export const MISC = ["Divine", "Holy", "Dragon", "Demon"];
