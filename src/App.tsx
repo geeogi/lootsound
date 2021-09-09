@@ -415,13 +415,11 @@ function App() {
       <p>
         Access the individual sounds via URL e.g.
         https://lootsound.com/mp3/weapons/Ghost-Wand.mp3 or download all sounds
-        below.
+        below. See{" "}
+        <a href="https://github.com/geeogi/lootsound">documentation</a>.
       </p>
       <h2>Aim</h2>
-      <p>
-        To give loot builders CC sounds ready to use. Alternative sound packs
-        could follow a similar structure.
-      </p>
+      <p>To give loot builders CC sounds ready to use.</p>
       <h2>Development</h2>
       <p>
         Not every item/material is covered by lootsound yet, add sounds and
@@ -439,7 +437,7 @@ function App() {
         ibm5155, ztrees1, ERH (flute trill f non-comercial), Soughtaftersounds,
         CosmisEmbers, oscillator, alexkandrell, dersuperanton, EminYILDIRIM,
         Dpoggioli, InspectorJ, Mega-X-stream, alixgaus (turn page book
-        non-comercial).
+        non-comercial), Coral_Island_Studios, Fewes, jamesrodavidson.
       </p>
       <h2>Source</h2>
       <p>
