@@ -4,7 +4,7 @@ Community-operated [sounds](https://lootsound.com) for the Loot project.
 
 ## Overview
 
-Loot sound is a collection of sounds for loot that are free to use and Creative Commons Licensed. Loot sound gives easy access to audio for anyone building on loot and provide a template for audio artists to add new sounds and alternative sounds for loot.
+Loot sound is a collection of sounds that are free to use and Creative Commons Licensed. Loot sound gives access to audio for anyone building on loot and provides a template for audio artists to add new sounds and alternative sounds for loot.
 
 ## Usage
 
